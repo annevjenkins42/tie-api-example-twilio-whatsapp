@@ -87,6 +87,7 @@ function handleAPIMessages(sessionHandler) {
      var post ;
      var from ;
      var userInput;
+     var subject;
      var apiKey;
      var challenge  = req.query["challenge"];   
      var messageId="";
@@ -95,9 +96,10 @@ function handleAPIMessages(sessionHandler) {
          try {
          post = JSON.parse(body);
          console.log("trying to parse body 2" );  
-         from = post.from;
+         from = post.envelope.from;
          console.log("trying to parse body 3" );  
-         userInput = post.userInput;
+         userInput = post.plain;
+         subject = post.subject;
          apiKey = post.apiKey;
          challenge=post.challenge;
           console.log("trying to parse body 4" );  
@@ -141,8 +143,9 @@ function handleAPIMessages(sessionHandler) {
     console.log(_stringify(res));
     //const triggerFrom = "+" + req.query["phone"].replace(/[^0-9]/g, '');  
    
-    //console.log(`from: ${triggerFrom}`);
-    console.log(`userInput: ${triggerInput}`);
+    console.log(`from: ${from}`);
+    console.log(`userInput: ${userInput}`);
+    console.log(`subject: ${subject}`);
     var teneoSessionId = req.headers["session"];
     console.log(`my session ID: ${teneoSessionId}`);
 

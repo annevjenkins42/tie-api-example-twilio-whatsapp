@@ -1,11 +1,12 @@
-const WebSocket = require("ws")
-const express = require("express")
-const app = express();
-const server = require("http").createServer(app)
-const path = require("path")
-const base64 = require("js-base64");
-const alawmulaw = require('alawmulaw');
-const wss = new WebSocket.Server({ server })
+const express = require('express');
+
+const server = express()
+  .use((req, res) => res.sendFile('/home.html', { root: __dirname }))
+  .listen(3000, () => console.log(`Listening on ${3000}`));
+
+const { Server } = require('ws');
+
+const ws_server = new Server({ server });
 
 //Include Azure Speech service 
 const sdk = require("microsoft-cognitiveservices-speech-sdk")
@@ -63,11 +64,9 @@ recognizer.startContinuousRecognitionAsync(() => {
       recognizer = undefined;
   });
 
-// Handle Web Socket Connection
-wss.on("connection", function connection(ws) {
-console.log("New Connection Initiated");
-
-   ws.on("message", function incoming(message) {
+ws_server.on('connection', (ws) => {
+  console.log('New client connected!');
+   ws_server.on("message", function incoming(message) {
     const msg = JSON.parse(message);
     switch (msg.event) {
       case "connected":
@@ -93,25 +92,15 @@ console.log("New Connection Initiated");
         recognizer.stopContinuousRecognitionAsync()
         break;
     }
-  });
-
-})
-
-app.post("/", (req, res) => {
-  res.set("Content-Type", "text/xml");
-
-  res.send(
-    `<Response>
-       <Say>
-            Leave a message
-       </Say>
-       <Start>
-           <Stream url="wss://${req.headers.host}" />
-       </Start>
-       <Pause legnth ='60' />
-    </Response>`
-)
+  ws.on('close', () => console.log('Client has disconnected!'));
 });
+
+
+setInterval(() => {
+  ws_server.clients.forEach((client) => {
+    client.send(new Date().toTimeString());
+  });
+}, 1000);
 
 console.log("Listening at Port 8080");
 server.listen(8080);

@@ -22,6 +22,9 @@
     "alawmulaw":"^5.0.2",
     "microsoft-cognitiveservices-speech-sdk":"^1.24.1",
     "asn1.js-rfc5280":"^3.0.0",
-    "asn1.js": "^5.0.0"
+    "asn1.js": "^5.0.0",
+     "inherits": "^2.0.1",
+     "minimalistic-assert": "^1.0.0",
+     "safer-buffer": "^2.1.0"
   }
 }

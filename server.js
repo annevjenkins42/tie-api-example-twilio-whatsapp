@@ -66,7 +66,7 @@ recognizer.startContinuousRecognitionAsync(() => {
 
 ws_server.on('connection', (ws) => {
   console.log('New client connected!');
-   ws.on('message', function incoming(message) {
+   /*ws.on('message', function incoming(message) {
     const msg = JSON.parse(message);
     switch (msg.event) {
       case 'connected':
@@ -91,7 +91,7 @@ ws_server.on('connection', (ws) => {
         azurePusher.close()
         recognizer.stopContinuousRecognitionAsync()
         break;
-    }
+    }*/
   ws.on('close', () => console.log('Client has disconnected!'));
 });
 

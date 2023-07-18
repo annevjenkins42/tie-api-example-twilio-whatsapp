@@ -9,7 +9,7 @@ const { Server } = require('ws');
 const ws_server = new Server({ server });
 
 //Include Azure Speech service 
-const sdk = require("microsoft-cognitiveservices-speech-sdk")
+const sdk = require('microsoft-cognitiveservices-speech-sdk')
 const subscriptionKey = 'e80f77176d1349709e6d237bbe3d476d'
 const serviceRegion = 'uksouth'
 
@@ -66,7 +66,7 @@ recognizer.startContinuousRecognitionAsync(() => {
 
 ws_server.on('connection', (ws) => {
   console.log('New client connected!');
-   ws_server.on("message", function incoming(message) {
+   ws_server.on('message', function incoming(message) {
     const msg = JSON.parse(message);
     switch (msg.event) {
       case "connected":
@@ -92,7 +92,7 @@ ws_server.on('connection', (ws) => {
         recognizer.stopContinuousRecognitionAsync()
         break;
     }
-  ws.on('close', () => console.log('Client has disconnected!'));
+  ws_server.on('close', () => console.log('Client has disconnected!'));
 });
 
 

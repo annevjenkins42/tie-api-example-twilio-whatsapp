@@ -91,7 +91,7 @@ ws_server.on('connection', (ws) => {
         azurePusher.close()
         recognizer.stopContinuousRecognitionAsync()
         break;
-    });
+    } }) ;
   ws.on('close', () => console.log('Client has disconnected!'));
 });
 

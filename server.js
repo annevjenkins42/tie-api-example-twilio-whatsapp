@@ -2,7 +2,7 @@ const express = require('express');
 
 const server = express()
   .use((req, res) => res.sendFile('/home.html', { root: __dirname }))
-  .listen(3000, () => console.log(`Listening on ${3000}`));
+  .listen(8080, () => console.log(`Listening on ${8080}`));
 
 const { Server } = require('ws');
 
@@ -66,16 +66,16 @@ recognizer.startContinuousRecognitionAsync(() => {
 
 ws_server.on('connection', (ws) => {
   console.log('New client connected!');
-   ws_server.on('message', function incoming(message) {
+   ws.on('message', function incoming(message) {
     const msg = JSON.parse(message);
     switch (msg.event) {
-      case "connected":
+      case 'connected':
         break;
-      case "start":
+      case 'start':
         console.log(`Starting Media Stream ${msg.streamSid}`);
         
         break;
-      case "media":
+      case 'media':
         var streampayload = base64.decode(msg.media.payload)
         var data = Buffer.from(streampayload)
         var pcmdata = Buffer.from(alawmulaw.mulaw.decode(data))
@@ -86,13 +86,13 @@ ws_server.on('connection', (ws) => {
         // let data = Buffer.from(streampayload);
         azurePusher.write(pcmdata)
         break;
-      case "stop":
+      case 'stop':
         console.log(`Call Has Ended`);
         azurePusher.close()
         recognizer.stopContinuousRecognitionAsync()
         break;
     }
-  ws_server.on('close', () => console.log('Client has disconnected!'));
+  ws.on('close', () => console.log('Client has disconnected!'));
 });
 
 
@@ -102,5 +102,4 @@ setInterval(() => {
   });
 }, 1000);
 
-console.log("Listening at Port 8080");
-server.listen(8080);
+

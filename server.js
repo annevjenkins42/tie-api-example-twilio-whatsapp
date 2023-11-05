@@ -72,9 +72,9 @@ function _stringify (o)
 // handle incoming twilio message
 function handleAPIMessages(sessionHandler) {
   return async (req, res) => {
-    console.log("in handleAPIMessages");
+   // console.log("in handleAPIMessages");
       
-    console.log("INBOUND START " );
+  //  console.log("INBOUND START " );
             let body = '';
 
             req.on('data', function (data) {
@@ -82,7 +82,7 @@ function handleAPIMessages(sessionHandler) {
             });
 
             req.on('end', async function () {
-      console.log("IN ASYNC" );          
+     // console.log("IN ASYNC" );          
      const triggerInput = req.query["userInput"];   
      var post ;
      var from ;
@@ -91,16 +91,16 @@ function handleAPIMessages(sessionHandler) {
      var challenge  = req.query["challenge"];   
      var messageId="";
      if((triggerInput===undefined || triggerInput===null) && body!=null && body!==undefined) {
-         console.log("trying to parse body" );  
+       //  console.log("trying to parse body" );  
          try {
          post = JSON.parse(body);
-         console.log("trying to parse body 2" );  
+       //  console.log("trying to parse body 2" );  
          from = post.from;
-         console.log("trying to parse body 3" );  
+        // console.log("trying to parse body 3" );  
          userInput = post.userInput;
          apiKey = post.apiKey;
          challenge=post.challenge;
-          console.log("trying to parse body 4" );  
+      //    console.log("trying to parse body 4" );  
          }
          catch(err) { 
            console.log(err.message);   
@@ -134,15 +134,15 @@ function handleAPIMessages(sessionHandler) {
     // get message from user
       console.log(userInput);
       console.log(apiKey);
-    console.log(`REQUEST (flattened):`);
-    console.log(_stringify(req));
+    //console.log(`REQUEST (flattened):`);
+    //console.log(_stringify(req));
     
-    console.log(`RESPONSE (flattened):`);
-    console.log(_stringify(res));
+    //console.log(`RESPONSE (flattened):`);
+   // console.log(_stringify(res));
     //const triggerFrom = "+" + req.query["phone"].replace(/[^0-9]/g, '');  
    
     //console.log(`from: ${triggerFrom}`);
-    console.log(`userInput: ${triggerInput}`);
+    //console.log(`userInput: ${triggerInput}`);
     var teneoSessionId = req.headers["session"];
     console.log(`my session ID: ${teneoSessionId}`);
 
